@@ -1,14 +1,20 @@
-// Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
-using Kontent.Ai.Delivery;
+// Create a delivery client using the builder pattern
+using var clientContainer = DeliveryClientBuilder
+    .WithOptions(builder => builder
+        .WithEnvironmentId("your-environment-id")
+        .UseProductionApi()
+        .Build())
+    .Build();
 
-// Tip: Use DI to create Delivery client https://kontent.ai/learn/net-register-client
-IDeliveryClient client = DeliveryClientBuilder
-      .WithEnvironmentId("KONTENT_AI_ENVIRONMENT_ID")
-      .Build();
+// Get the client from the container
+var client = clientContainer.Client;
 
 // Gets 3 taxonomy groups
-IDeliveryTaxonomyListingResponse response = await client.GetTaxonomiesAsync(
-    new LimitParameter(3)
-    );
+var result = await client.GetTaxonomies()
+    .Limit(3)
+    .ExecuteAsync();
 
-IList<ITaxonomyGroup> taxonomies = response.Taxonomies;
+if (result.IsSuccess)
+{
+    IReadOnlyList<ITaxonomyGroup> taxonomies = result.Value.Taxonomies;
+}

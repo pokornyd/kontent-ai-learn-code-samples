@@ -1,16 +1,23 @@
-// Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
-using Kontent.Ai.Delivery;
+// Create a delivery client using the builder pattern
+using var clientContainer = DeliveryClientBuilder
+    .WithOptions(builder => builder
+        .WithEnvironmentId("your-environment-id")
+        .UseProductionApi()
+        .Build())
+    .Build();
 
-// Tip: Use DI to create Delivery client https://kontent.ai/learn/net-register-client
-IDeliveryClient client = DeliveryClientBuilder
-      .WithEnvironmentId("KONTENT_AI_ENVIRONMENT_ID")
-      .Build();
+// Get the client from the container
+var client = clientContainer.Client;
 
-// Gets specific elements of 3 articles ordered by the "Post date" element
-// ProTip: Use https://kontent.ai/learn/net-strong-types
-IDeliveryItemListingResponse<Article> response = await client.GetItemsAsync<Article>(
-    new EqualsFilter("system.type", "article"),
-    new LimitParameter(3)
-    );
+// Gets 3 articles ordered by the "Post date" element
+// Note: When using source generation with [ContentTypeCodename("article")],
+// the system.type filter is added automatically for GetItems<Article>()
+var result = await client.GetItems<Article>()
+    .OrderBy("elements.post_date", OrderingMode.Descending)
+    .Limit(3)
+    .ExecuteAsync();
 
-IList<Article> items = response.Items;
+if (result.IsSuccess)
+{
+    IReadOnlyList<IContentItem<Article>> items = result.Value.Items;
+}

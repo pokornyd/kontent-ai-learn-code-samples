@@ -1,11 +1,21 @@
-// Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
-using Kontent.Ai.Delivery;
-
-// Tip: Use DI to create Delivery client https://kontent.ai/learn/net-register-client
-IDeliveryClient client = DeliveryClientBuilder
-      .WithEnvironmentId("KONTENT_AI_ENVIRONMENT_ID")
+// Create a delivery client using the builder pattern
+using var clientContainer = DeliveryClientBuilder
+      .WithOptions(builder => builder
+            .WithEnvironmentId("your-environment-id")
+            .UseProductionApi()
+            .Build())
       .Build();
 
-// Gets the model of specific element within a specific content type
-DeliveryElementResponse response = await client.GetContentElementAsync("article", "title");
-IContentElement element = response.Element;
+// Get the client from the container
+var client = clientContainer.Client;
+
+// Gets the model of a specific element within a specific content type
+var result = await client.GetContentElement("article", "title").ExecuteAsync();
+
+if (result.IsSuccess)
+{
+      IContentElement element = result.Value;
+      Console.WriteLine($"Name: {element.Name}");
+      Console.WriteLine($"Type: {element.Type}");
+      Console.WriteLine($"Codename: {element.Codename}");
+}

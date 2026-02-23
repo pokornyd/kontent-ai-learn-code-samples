@@ -1,22 +1,19 @@
-// Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
-using Kontent.Ai.Delivery;
+// Create a delivery client using the builder pattern
+using var clientContainer = DeliveryClientBuilder
+    .WithOptions(builder => builder
+        .WithEnvironmentId("your-environment-id")
+        .UseProductionApi()
+        .Build())
+    .Build();
 
-// Creates an instance of the delivery client; see https://kontent.ai/learn/net-register-client
-IDeliveryClient client = DeliveryClientBuilder
-      .WithEnvironmentId("KONTENT_AI_ENVIRONMENT_ID")
-      .Build();
+// Get the client from the container
+var client = clientContainer.Client;
 
-// Gets feed of all articles in the project 
-// Tip: Create strongly typed models according to https://kontent.ai/learn/net-strong-types
-IDeliveryItemsFeed<Article> feed = client.GetItemsFeed<Article>(
-    new EqualsFilter("system.type", "article")
-    );
-
-while (feed.HasMoreResults)
+// Enumerates all articles in the project
+// Note: When using source generation with [ContentTypeCodename("article")],
+// the system.type filter is added automatically for GetItemsFeed<Article>()
+await foreach (var article in client.GetItemsFeed<Article>().EnumerateItemsAsync())
 {
-    IDeliveryItemsFeedResponse<Article> response = await feed.FetchNextBatchAsync();
-    foreach(Article article in response) {
-        // Do something with the content item, e.g. update cache
-        ProcessContentItem(article);
-    }
+    // Do something with the content item, e.g. update cache
+    ProcessContentItem(article.Elements);
 }

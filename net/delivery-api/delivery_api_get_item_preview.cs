@@ -1,14 +1,18 @@
-// Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
-using Kontent.Ai.Delivery;
-
-// Initializes a delivery client for previewing content
-IDeliveryClient client = DeliveryClientBuilder
+// Create a delivery client for previewing content
+using var clientContainer = DeliveryClientBuilder
     .WithOptions(builder => builder
-        .WithEnvironmentId("KONTENT_AI_ENVIRONMENT_ID")
-        .UsePreviewApi("KONTENT_AI_PREVIEW_API_KEY")
+        .WithEnvironmentId("your-environment-id")
+        .UsePreviewApi("your-preview-api-key")
         .Build())
     .Build();
 
+// Get the client from the container
+var client = clientContainer.Client;
+
 // Generate strongly typed models via https://github.com/kontent-ai/model-generator-net
-IDeliveryItemResponse<Article> response = await client.GetItemAsync<Article>("my_article");
-Article item = response.Item;
+var result = await client.GetItem<Article>("my_article").ExecuteAsync();
+
+if (result.IsSuccess)
+{
+    Article item = result.Value.Elements;
+}

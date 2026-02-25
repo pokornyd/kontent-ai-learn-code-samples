@@ -11,7 +11,7 @@ var client = clientContainer.Client;
 
 // Enumerates all parent content items of type "article" for asset 'my_asset'
 await foreach (var usedInItem in client.GetAssetUsedIn("my_asset")
-    .Where(f => f.System("type").IsEqualTo("article"))
+    .Where(item => item.System("type").IsEqualTo("article"))
     .EnumerateItemsAsync())
 {
     // Do something with the parent content item, e.g. update cache

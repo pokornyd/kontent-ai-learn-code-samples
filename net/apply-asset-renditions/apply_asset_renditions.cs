@@ -9,21 +9,19 @@ using var clientContainer = DeliveryClientBuilder
 // Get the client from the container
 var client = clientContainer.Client;
 
-// Retrieve a strongly-typed content item
-var response = await client.GetItem<Article>("my_article").ExecuteAsync();
+// Retrieves a content item
+var result = await client.GetItem<Article>("my_article").ExecuteAsync();
 
-if (response.IsSuccess)
+if (result.IsSuccess)
 {
     // Gets the image from an asset element named Hero Image
-    var imageWithRendition = response.Value.Elements.HeroImage
+    var imageWithRendition = result.Value.Elements.HeroImage?
         .SingleOrDefault(x => x.Name == "construction-insurance-header.jpg");
 
-    if (imageWithRendition is not null)
+    if (imageWithRendition is not null
+        && imageWithRendition.Renditions.TryGetValue("default", out var rendition))
     {
-        // Gets the asset rendition query from the image
-        var renditionQuery = imageWithRendition.Renditions["default"].Query;
-
-        // Combines the original image URL with the asset rendition query, if the image specifies a query
-        var assetUrl = $"{imageWithRendition.Url}?{renditionQuery}";
+        // Combines the original image URL with the asset rendition query
+        var assetUrl = $"{imageWithRendition.Url}?{rendition.Query}";
     }
 }

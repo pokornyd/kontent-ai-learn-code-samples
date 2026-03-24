@@ -1,12 +1,23 @@
-﻿// Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
-using Kontent.Ai.Delivery;
+// Tip: Find more about .NET SDKs at https://kontent.ai/learn/net
+using Kontent.Ai.Sync;
+using Kontent.Ai.Sync.Abstractions;
 
-// Tip: Use DI to create Delivery client https://kontent.ai/learn/net-register-client
-IDeliveryClient client = DeliveryClientBuilder
-    .WithEnvironmentId("KONTENT_AI_ENVIRONMENT_ID")
-    .Build();
+// Register a Sync client
+services.AddSyncClient(options =>
+{
+    options.EnvironmentId = "your-environment-id";
+    options.ApiMode = ApiMode.Preview;
+    options.ApiKey = "your-preview-api-key";
+});
 
-// Gets the continuation token based on the given parameters
-IDeliverySyncV2Response response = await client.PostSyncV2InitAsync()
-    
-string continuationToken = response.ApiResponse.ContinuationToken;
+// Resolve via DI (e.g., constructor injection)
+// ISyncClient syncClient = ...
+
+// Initializes Sync API v2 and gets the initial sync token.
+var result = await syncClient.InitializeSyncAsync();
+if (!result.IsSuccess)
+{
+    throw new InvalidOperationException(result.Error?.Message ?? "Sync init failed.");
+}
+
+string? syncToken = result.SyncToken;

@@ -1,2 +1,0 @@
-curl --request POST \
-  --url https://deliver.kontent.ai/KONTENT_AI_ENVIRONMENT_ID/sync/init

@@ -10,9 +10,11 @@ using Kontent.Ai.Delivery.ContentItems.RichText;
 
 namespace KontentAiModels;
 
+// Identifies this record as the Homepage content type for the SDK's type resolution
 [ContentTypeCodename("simple_article")]
 public partial record SimpleArticle
 {
+    // Stores the codename of each element for use in queries and switch expressions
     public const string TitleCodename = "title";
     public const string BodyCodename = "body";
     public const string AuthorCodename = "author";
@@ -21,8 +23,10 @@ public partial record SimpleArticle
 
     [JsonPropertyName("title")]
     public string? Title { get; init; }
+
     [JsonPropertyName("body")]
     public RichTextContent? Body { get; init; }
+
     [JsonPropertyName("author")]
     public IEnumerable<IEmbeddedContent>? Author { get; init; }
 }

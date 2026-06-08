@@ -10,9 +10,11 @@ using Kontent.Ai.Delivery.SharedModels;
 
 namespace KontentAiModels;
 
+// Identifies this record as the Homepage content type for the SDK's type resolution
 [ContentTypeCodename("homepage")]
 public partial record Homepage
 {
+    // Stores the codename of each element for use in queries and switch expressions
     public const string BodyTextCodename = "body_text";
     public const string HeadlineCodename = "headline";
     public const string PictureCodename = "picture";
@@ -21,8 +23,10 @@ public partial record Homepage
 
     [JsonPropertyName("body_text")]
     public RichTextContent? BodyText { get; init; }
+
     [JsonPropertyName("headline")]
     public string? Headline { get; init; }
+
     [JsonPropertyName("picture")]
     public IEnumerable<Asset>? Picture { get; init; }
 }

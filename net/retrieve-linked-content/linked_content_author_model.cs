@@ -8,6 +8,7 @@ using Kontent.Ai.Delivery.ContentItems.RichText;
 
 namespace KontentAiModels;
 
+// Identifies this record as the Author content type for the SDK's type resolution
 [ContentTypeCodename("author")]
 public partial record Author
 {
@@ -18,6 +19,7 @@ public partial record Author
 
     [JsonPropertyName("name")]
     public string? Name { get; init; }
+
     [JsonPropertyName("bio")]
     public RichTextContent? Bio { get; init; }
 }

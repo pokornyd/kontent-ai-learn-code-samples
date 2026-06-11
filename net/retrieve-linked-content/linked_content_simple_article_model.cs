@@ -10,7 +10,7 @@ using Kontent.Ai.Delivery.ContentItems.RichText;
 
 namespace KontentAiModels;
 
-// Identifies this record as the Homepage content type for the SDK's type resolution
+// Identifies this record as the Simple Article content type for the SDK's type resolution
 [ContentTypeCodename("simple_article")]
 public partial record SimpleArticle
 {

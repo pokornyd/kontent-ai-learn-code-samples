@@ -12,6 +12,7 @@ namespace KontentAiModels;
 [ContentTypeCodename("author")]
 public partial record Author
 {
+    // Stores the codename of each element for use in queries and switch expressions
     public const string NameCodename = "name";
     public const string BioCodename = "bio";
 

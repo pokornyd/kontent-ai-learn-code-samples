@@ -17,7 +17,7 @@ curl --location --request PATCH \
     },
     {
       "op": "replace",
-      "property_name": "web_spotlight_root_item",
+      "property_name": "root_item",
       "value": {
         "id": "1024356f-858f-421a-b804-07c6bfe10ce5"
       }

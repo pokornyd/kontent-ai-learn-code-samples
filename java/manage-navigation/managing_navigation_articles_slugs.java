@@ -16,13 +16,3 @@ CompletionStage<NavigationItem> root = client.getItem(
         .linkedItemsDepth(5)
         .build()
 
-// Registers the model class for articles
-client.registerType(Article.class);
-
-// Gets specific elements of all articles
-CompletionStage<List<Article>> articles = client.getItems(
-    Article.class, 
-    DeliveryParameterBuilder.params()
-        .projection("title", "url")
-        .build()
-);

@@ -4,8 +4,7 @@ using var client = DeliveryClientBuilder
         .WithEnvironmentId("your-environment-id")
         .UsePreviewApi("your-preview-api-key")
         .Build())
-    .Build()
-    .Client;
+    .Build();
 
 // Gets the latest version of a content item
 // Tip: Generate models via https://github.com/kontent-ai/model-generator-net

@@ -6,7 +6,7 @@ curl --location --request POST \
   {
     "name": "Space 1",
     "codename": "space_1",
-    "web_spotlight_root_item": {
+    "root_item": {
         "codename": "root_item_1"
     },
     "collections": [

@@ -3,11 +3,13 @@ using Kontent.Ai.Management;
 
 var client = new ManagementClient(new ManagementOptions
 {
-    ApiKey = "KONTENT_AI_MANAGEMENT_API_KEY",
+    ApiKey = "KONTENT_AI_SUBSCRIPTION_API_KEY",
+    SubscriptionId = "KONTENT_AI_SUBSCRIPTION_ID",
+    // Required by the SDK for client creation
     EnvironmentId = "KONTENT_AI_ENVIRONMENT_ID"
 });
 
 var identifier = UserIdentifier.ByEmail("user@kontent.ai");
-//var identifier = UserIdentifier.ById("d94bc87a-c066-48a1-a910-4f991ccc1fb5");
+// var identifier = UserIdentifier.ById("usr_0vKjTCH2TkO687K3y3bKNS");
 
 await client.ActivateSubscriptionUserAsync(identifier);

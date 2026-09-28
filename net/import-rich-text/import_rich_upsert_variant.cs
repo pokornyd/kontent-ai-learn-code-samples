@@ -12,6 +12,7 @@ using var client = new ManagementClient(new ManagementOptions
     EnvironmentId = "KONTENT_AI_ENVIRONMENT_ID"
 });
 
+// Default language; for another language, use e.g. Reference.ByCodename("es-ES")
 var identifier = new LanguageVariantIdentifier(Reference.ByExternalId("simple-example"), Reference.ByDefaultId());
 
 (await client.UpsertLanguageVariantAsync(identifier, new LanguageVariantUpsertModel
